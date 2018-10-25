@@ -11,14 +11,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(os.path.dirname(__fi
 now = datetime.datetime.now()
 
 class DialogFlowService:
-    LANGUAGE_CODE = 'EN'
-
     def __init__(self):
-        self.session_id = str(uuid.uuid4())
         self.project_id = config.get('project_id')
-        self.agent = config.get('agent')
-        
-        self.agent = 'projects/{}/{}'.format(self.project_id, self.agent)
         self.project = 'projects/{}'.format(self.project_id)
 
     def exportAgent(self):
@@ -36,6 +30,7 @@ class DialogFlowService:
         f = open(filename, 'wb')
         f.write(bytes)
         f.close()
+        print(filename, 'exported.')
 
     def importAgent(self, file):
         client = dialogflow.AgentsClient()
@@ -50,7 +45,8 @@ class DialogFlowService:
             result = operation_future.result()
         
         response.add_done_callback(callback)
-		
+        print('Agent imported with the file', file)
+
     def restoreAgent(self, file):
         client = dialogflow.AgentsClient()
 
@@ -62,5 +58,6 @@ class DialogFlowService:
 				
         def callback(operation_future):
             result = operation_future.result()
-        
+
         response.add_done_callback(callback)
+        print('Agent restored with the file', file)
