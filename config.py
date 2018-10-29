@@ -4,7 +4,7 @@ import json
 
 class Config:
     def __init__(self, directory):
-        #On parse le config.ini. On obtient un dictionnaire avec la valeur du fichier dialogflow_secret.json
+        #We parse the config.ini file. We get a dictionnary with dialogflow_secret.json as value.
         parser = ConfigParser()
         absolute_file_path = os.path.join(directory, 'config.ini')
         file_list = parser.read(absolute_file_path)
@@ -13,7 +13,7 @@ class Config:
         for name in parser.sections():
             self.__dict__.update(parser.items(name))
 
-        #On extrait la valeur du project_id du fichier dialogflow_secret.json et on l'associe à l'instance self.project_id
+        #We extract the project_id from the dialogflow_secret.json file and we associate it to self.project_id.
         absolute_file_path_dialogflow_secret = os.path.join(directory, self.__getattribute__('dialogflow_secret'))
         f = open(absolute_file_path_dialogflow_secret)
         data = json.load(f)
